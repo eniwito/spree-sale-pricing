@@ -1,6 +1,8 @@
 module Spree
   class SalePrice < ActiveRecord::Base
 
+    before_create :disable_previous
+
     belongs_to :price, class_name: "Spree::Price"
     delegate_belongs_to :price, :currency
 
@@ -17,6 +19,16 @@ module Spree
     #def self.calculators
     #  Rails.application.config.spree.calculators.send(self.to_s.tableize.gsub('/', '_').sub('spree_', ''))
     #end
+
+    def disable_previous
+      product = Spree::Product.find(variant.product_id)
+      previous_sales = product.master.sale_prices
+      previous_sales.each do |previous_sale|
+        if previous_sale.active?
+          previous_sale.disable
+        end
+      end
+    end
 
     def calculator_type
       calculator.class.to_s if calculator

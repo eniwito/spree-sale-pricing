@@ -7,7 +7,7 @@ module Spree
       respond_to :js, :html
 
       def index
-        @sale_prices = @product.sale_prices
+        @sale_prices = @product.master.sale_prices.order(created_at: :asc)
       end
 
       def create
@@ -22,14 +22,21 @@ module Spree
       end
 
       def disable
-        @product.disable_sale
-        flash[:success] = "Le solde a été désactivé"
+        @sale_price = Spree::SalePrice.find(params[:id])
+        @sale_price.disable
+        flash[:success] = Spree.t('spree_sale_price.disable_notify')
         redirect_to admin_product_sale_prices_path
       end
 
       def enable
-        @product.enable_sale
-        flash[:success] = "Le solde a été activé"
+        @sale_prices = @product.master.sale_prices.order(created_at: :asc)
+        @sale_price = Spree::SalePrice.find(params[:id])
+        if @sale_prices.where(enabled: true).count >= 1
+          flash[:error] = Spree.t('spree_sale_price.exist_enabled_notify')
+        else
+          @sale_price.enable
+          flash[:success] = Spree.t('spree_sale_price.enable_notify')
+        end
         redirect_to admin_product_sale_prices_path
       end
 
@@ -44,6 +51,7 @@ module Spree
         params.require(:sale_price).permit(
             :id,
             :value,
+            :kind,
             :currency,
             :start_at,
             :end_at,
@@ -54,4 +62,3 @@ module Spree
     end
   end
 end
-

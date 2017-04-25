@@ -6,7 +6,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">
-        <%= t('add_product_sale_prices') %>
+        <%= Spree.t('title', scope: :spree_sale_price) %>
       </div>
     </div>
 
@@ -14,26 +14,34 @@
       <%= form_for [:admin, @product, Spree::SalePrice.new], remote: true do |f| %>
         <div class="row">
           <div class="col-md-4">
-            <%= label_tag t('original_price') %>
-            <%= text_field_tag '', @product.original_price.to_f, disabled: true, class: 'form-control' %>
+            <%= label_tag Spree.t('original_price', scope: :spree_sale_price) %>
+            <%= text_field_tag '', number_to_currency(@product.original_price, unit: ''), disabled: true, class: 'form-control' %>
           </div>
           <div class="col-md-4">
-            <%= f.label :value, t('sale_price_amount') %>
+            <%= f.label :kind, Spree.t('spree_sale_price.kind') %>
+            <%= f.select :kind, options_for_select([
+                [Spree.t('sale_types.percentage', scope: :spree_sale_price), 'percentage'],
+                [Spree.t('sale_types.fixeddiscount', scope: :spree_sale_price), 'fixeddiscount'],
+                [Spree.t('sale_types.fixedprice', scope: :spree_sale_price), 'fixedprice']]
+             ), {}, {:class => 'select2'} %>
+          </div>
+          <div class="col-md-4">
+            <%= f.label :value, Spree.t('amount', scope: :spree_sale_price) %>
             <%= f.text_field :value,  class: 'form-control' %>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= f.label :start_at, t('sale_price_start_at') %>
+            <%= f.label :start_at, Spree.t('start_at', scope: :spree_sale_price) %>
             <%= f.text_field :start_at, class: "datepicker form-control" %>
           </div>
           <div class="col-md-4">
-            <%= f.label :end_at, t('sale_price_end_at') %>
+            <%= f.label :end_at, Spree.t('end_at', scope: :spree_sale_price) %>
             <%= f.text_field :end_at, class: "datepicker form-control" %>
           </div>
         </div>
         <div class="form-actions">
-          <%= f.submit t('add_product_sale_prices'),  class: 'btn btn-primary btn-success' %>
+          <%= f.submit Spree.t('add_product_sale_price', scope: :spree_sale_price),  class: 'btn btn-primary btn-success' %>
         </div>
       <% end %>
     </div>

@@ -19,7 +19,7 @@ FactoryGirl.define do
   end
 
   factory :international_price, parent: :price do
-    currency { Faker::Currency.code }
+    currency { FFaker::Currency.code }
   end
 
   factory :multi_price_variant, parent: :variant do

@@ -3,6 +3,7 @@ class CreateSalePrices < ActiveRecord::Migration
     create_table :spree_sale_prices do |t|
       t.integer :price_id
       t.float :value
+      t.string :kind
       t.datetime :start_at
       t.datetime :end_at
       t.boolean :enabled

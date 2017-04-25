@@ -1,0 +1,26 @@
+ru:
+  spree:
+    product_sale_prices: 'Скидки'
+    spree_sale_price:
+      title: 'Добавление скидки'
+      original_price: 'Основная цена'
+      add_product_sale_price: "Добавить"
+      kind: 'Тип скидки'
+      amount: 'Значение'
+      currency: 'Валюта'
+      start_at: "Доступно с"
+      end_at: "Прекратить"
+      created_at: "Дата создания"
+      enabled: "Включена"
+      enable: 'Включить'
+      disable: 'Отключить'
+      delete: 'Удалить'
+      disable_notify: 'Скидка отключена'
+      enable_notify: 'Скидка включена'
+      destroy_notify: 'Скидка удалена'
+      exist_enabled_notify: 'Сначало необходимо отключить активную'
+      blocked_price_info: '* Поле заблокировано потому что есть активная скидка'
+      sale_types:
+        percentage: 'Процент'
+        fixeddiscount: 'Фикс. скидка'
+        fixedprice: 'Фикс. цена'

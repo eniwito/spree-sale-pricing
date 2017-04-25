@@ -2,13 +2,28 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  sale_price: "Sale Price"
-  original_price: "Original Price (Standard Currency)"
-  product_sale_prices: "Product Sale Prices"
-  add_product_sale_prices: "Add Product Sale Price"
-  sale_price_amount: 'Amount'
-  sale_price_active: 'Active'
-  sale_price_currency: "Currency"
-  sale_price_start_at: "Sale Start Date"
-  sale_price_end_at: "Sale End Date"
-  sale_price_enabled: "Enabled"
+  spree:
+    product_sale_prices: 'Discounts'
+    spree_sale_price:
+      title: 'Add discount'
+      original_price: 'Original price'
+      add_product_sale_price: "Add"
+      kind: 'Discount type'
+      amount: 'Value'
+      currency: 'Currency'
+      start_at: "Start at"
+      end_at: "End at"
+      created_at: "Created at"
+      enabled: "Enabled"
+      enable: 'Enable'
+      disable: 'Disable'
+      delete: 'Delete'
+      disable_notify: 'Discount disabled'
+      enable_notify: 'Discount enabled'
+      destroy_notify: 'Discount deleted'
+      exist_enabled_notify: 'First you need to disable active'
+      blocked_price_info: '* The field is locked because there is an active discount'
+      sale_types:
+        percentage: 'Percentage'
+        fixeddiscount: 'Fixed discount'
+        fixedprice: 'Fixed price'

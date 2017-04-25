@@ -1,14 +1,16 @@
-<tr data-hook="products_row" id="<%= spree_dom_id(sale_price) %>" class="spree-product-sale-price <%= sale_price.active? ? 'success' : 'error' %>">
+<tr data-hook="products_row" id="<%= spree_dom_id(sale_price) %>" class="spree-product-sale-price <%= sale_price.active? ? 'active' : '' %>">
   <td class="align-center"><%= sale_price.active? ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
-  <td><%= sale_price.display_price.to_html %></td>
+  <td><%= display_type sale_price.kind %></td>
+  <td><%= number_to_currency(sale_price.value, unit: '') %></td>
   <td><%= (l sale_price.start_at ) if sale_price.start_at %></td>
   <td><%= (l sale_price.end_at) if sale_price.end_at %></td>
-  <td class="align-center"><%= sale_price.active? ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
+  <td><%= (l sale_price.created_at) if sale_price.created_at %></td>
   <td class="actions">
     <% if sale_price.active? %>
-      <%= link_to 'X', disable_admin_product_sale_price_path(product, sale_price.id), method: :put %>
+      <%= link_to Spree.t('disable', scope: :spree_sale_price), disable_admin_product_sale_price_path(product, sale_price.id), method: :put %>
     <% else %>
-      <%= link_to 'X', enable_admin_product_sale_price_path(product, sale_price.id), method: :put %>
+      <%= link_to Spree.t('enable', scope: :spree_sale_price), enable_admin_product_sale_price_path(product, sale_price.id), method: :put %>
     <% end %>
+    <%= link_to Spree.t('delete', scope: :spree_sale_price), admin_product_sale_price_path(product, sale_price.id), method: :delete, remote: true  %>
   </td>
 </tr>

@@ -1,0 +1,14 @@
+<div data-hook="admin_product_form_price">
+  <%= f.field_container :price, class: ['form-group'] do %>
+    <%= f.label :price, raw(Spree.t(:master_price) + content_tag(:span, ' *', class: "required")) %>
+    <% if @product.master.sale_prices.where(enabled: true).count > 1 %>
+      <%= f.text_field :price, value: number_to_currency(@product.price, unit: ''), class: 'form-control', disabled: (cannot? :update, @product.price) %>
+    <% else %>
+      <%= f.text_field :price, value: number_to_currency(@product.price, unit: ''), class: 'form-control', disabled: true %>
+      <p class="help-block">
+        <%= Spree.t('blocked_price_info', scope: :spree_sale_price) %>
+      </p>
+    <% end %>
+    <%= f.error_message_on :price %>
+  <% end %>
+</div>

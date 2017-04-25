@@ -2,22 +2,24 @@
   <colgroup>
     <col></col>
     <col></col>
-    <col style="width: 30%"></col>
-    <col style="width: 30%"></col>
     <col></col>
+    <col style="width: 20%"></col>
+    <col style="width: 20%"></col>
+    <col style="width: 20%"></col>
     <col></col>
   </colgroup>
   <thead>
     <tr data-hook="products_header">
-      <th><%= t('sale_price_active') %></th>
-      <th><%= t('sale_price') %></th>
-      <th><%= t('sale_price_start_at') %></th>
-      <th><%= t('sale_price_end_at') %></th>
-      <th><%= t('sale_price_enabled') %></th>
+      <th><%= Spree.t('enabled', scope: :spree_sale_price) %></th>
+      <th><%= Spree.t('kind', scope: :spree_sale_price) %></th>
+      <th><%= Spree.t('amount', scope: :spree_sale_price) %></th>
+      <th><%= Spree.t('start_at', scope: :spree_sale_price) %></th>
+      <th><%= Spree.t('end_at', scope: :spree_sale_price) %></th>
+      <th><%= Spree.t('created_at', scope: :spree_sale_price) %></th>
       <th class="actions"></th>
     </tr>
   </thead>
   <tbody>
-    <%= render partial: "sale_price", collection: product.master.sale_prices, locals: {product: product} %>
+    <%= render partial: "sale_price", collection: product.master.sale_prices.order(created_at: :asc), locals: {product: product} %>
   </tbody>
 </table>

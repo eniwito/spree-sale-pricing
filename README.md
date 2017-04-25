@@ -1,14 +1,19 @@
 Spree Sale Pricing
 ==================
 
-A Spree Commerce extension (Rails Engine) that lets you set sale prices on products, either by a fixed sale price or a
-percentage off of the original price. Sale prices have a start date, end date and enabled flag to allow you to schedule
+A Spree Commerce extension (Rails Engine) that lets you set sale prices on products.
+Sale prices have a discount type (percentage, fixed discount, fixed price),
+start date, end date and enabled flag to allow you to schedule
 sales, have a historical record of sale prices and put sales on hold.
+
+In this extension we can have only one active sale price.
+
+This gem is fork from WebGents/spree-sale-pricing.
 
 Requirements
 ------------
 
-This Gem has been tested with Spree 3.1-stable and Ruby 2.3.1
+This Gem has been tested with Spree 3.2-stable and Ruby 2.4.0
 It does not support Ruby versions earlier than 1.9 for sure.
 
 Installing
@@ -16,7 +21,7 @@ Installing
 
 In your Gemfile add the following for the latest released version:
 
-    gem 'spree_sale_pricing', github: 'WebGents/spree-sale-pricing', branch: '3-1-stable'
+    gem 'spree_sale_pricing', github: 'eniwito/spree-sale-pricing', branch: '3-2-stable'
 
 Install the Gem:
 
@@ -97,7 +102,11 @@ variants on sale or just particular variants. See the explanation of put\_on\_sa
 Options for put\_on\_sale (create_sale)
 ---------------------------------------
 
-    put_on_sale(value, { calculator_type: Spree::Calculator::PercentOffSalePriceCalculator.new, all_variants: true, start_at: Time.now, end_at: nil, enabled: true })
+    put_on_sale(value, { calculator_type: Spree::Calculator::PercentOffSalePriceCalculator.new,
+                         all_variants: true,
+                         start_at: Time.now,
+                         end_at: nil,
+                         enabled: true })
 
 **value**           (_float_)
 
@@ -152,7 +161,5 @@ Tests are in progress, so there aren't any yet. I know, TDD, blah blah blah.
 Be sure to bundle your dependencies and then create a dummy test app for the specs to run against.
 
     $ bundle
-    $ bundle exec rake test app
+    $ bundle exec rake test_app
     $ bundle exec rspec spec
-
-Copyright (c) 2012 Jonathan Dean, released under the New BSD License

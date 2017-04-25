@@ -1,6 +1,6 @@
 Spree::Price.class_eval do
   has_many :sale_prices
-  
+
   def put_on_sale(value, params = {})
     new_sale(value, params).save
   end
@@ -8,14 +8,25 @@ Spree::Price.class_eval do
   def new_sale(value, params = {})
     sale_price_params = {
         value: value,
+        kind: params.fetch(:kind, 'percentage'),
         start_at: params.fetch(:start_at, Time.now),
         end_at: params.fetch(:end_at, nil),
         enabled: params.fetch(:enabled, true),
-        calculator: params.fetch(:calculator_type, Spree::Calculator::FixedAmountSalePriceCalculator.new)
+        calculator: selected_calc(params.fetch(:kind, 'percentage'), value),
     }
     return sale_prices.new(sale_price_params)
   end
-  
+
+  def selected_calc(kind, value)
+    if kind == 'fixedprice'
+      Spree::Calculator::FixedAmountSalePriceCalculator.new
+    elsif kind == 'fixeddiscount'
+      Spree::Calculator::FixedAmountOffSalePriceCalculator.new
+    else
+      Spree::Calculator::PercentOffSalePriceCalculator.new
+    end
+  end
+
   # TODO make update_sale method
 
   def active_sale
@@ -31,7 +42,7 @@ Spree::Price.class_eval do
   def sale_price
     active_sale.calculated_price if on_sale?
   end
-  
+
   def sale_price=(value)
     if on_sale?
       active_sale.update_attribute(:value, value)
@@ -53,11 +64,11 @@ Spree::Price.class_eval do
   def original_price
     self[:amount]
   end
-  
+
   def original_price=(value)
     self[:amount] = Spree::LocalizedNumber.parse(value)
   end
-  
+
   def price
     on_sale? ? sale_price : original_price
   end
@@ -69,7 +80,7 @@ Spree::Price.class_eval do
       self[:amount] = Spree::LocalizedNumber.parse(price)
     end
   end
-  
+
   def amount
     price
   end
@@ -89,7 +100,7 @@ Spree::Price.class_eval do
   def stop_sale
     active_sale.stop if active_sale.present?
   end
-  
+
   private
     def first_sale(scope)
       scope.order("created_at DESC").first
